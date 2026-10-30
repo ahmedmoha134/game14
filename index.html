@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مسابقة التحدي | الصف الثامن - مدرسة عبد الرحمن بن عوف للبنين</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { min-height: 100%; }
+  body {
+    font-family: "Cairo", "Segoe UI", Tahoma, Arial, sans-serif;
+    color: #0f172a;
+    background-color: #041a14;
+    background-image:
+      radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1.6px),
+      radial-gradient(ellipse 80% 50% at 85% -10%, rgba(16,185,129,0.22), transparent 60%),
+      radial-gradient(ellipse 70% 45% at 10% 110%, rgba(251,191,36,0.14), transparent 60%),
+      linear-gradient(160deg, #04211a 0%, #06231b 45%, #041a14 100%);
+    background-size: 26px 26px, auto, auto, auto;
+    background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+    -webkit-font-smoothing: antialiased;
+  }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  button:disabled { cursor: default; }
+
+  .wrap { max-width: 780px; margin: 0 auto; padding: 20px 14px 40px; }
+
+  /* ====== بطاقات ====== */
+  .glass {
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(14px);
+    border-radius: 22px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+  }
+  .card-white { background: #fff; border-radius: 26px; padding: 30px 24px; text-align: center; }
+
+  .hidden { display: none !important; }
+
+  /* ====== شاشة البداية ====== */
+  .start-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 26px 14px; }
+  .start-card { max-width: 640px; width: 100%; padding: 6px; animation: slideIn .35s ease-out both; }
+  .trophy-badge {
+    width: 84px; height: 84px; margin: 0 auto 20px; border-radius: 26px;
+    display: flex; align-items: center; justify-content: center; font-size: 44px;
+    background: linear-gradient(135deg, #fcd34d, #f59e0b);
+    box-shadow: 0 12px 30px rgba(245,158,11,0.45);
+    animation: glowPulse 2s ease-out infinite;
+  }
+  .team { color: #047857; font-weight: 800; font-size: 14px; }
+  .school { font-size: 26px; font-weight: 900; color: #1e293b; margin-top: 6px; }
+  .divider { width: 96px; height: 4px; border-radius: 99px; margin: 18px auto;
+    background: linear-gradient(to left, #fcd34d, #f59e0b, #fcd34d); }
+  .contest { font-size: 54px; font-weight: 900; line-height: 1.15;
+    background: linear-gradient(120deg, #fde68a 0%, #fbbf24 40%, #f59e0b 70%, #fde68a 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .grade { font-size: 20px; font-weight: 800; color: #334155; margin-top: 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 26px; }
+  .chip { border-radius: 99px; padding: 8px 16px; font-size: 13px; font-weight: 800; }
+  .chip.green { background: #ecfdf5; color: #047857; box-shadow: inset 0 0 0 1px #a7f3d0; }
+  .chip.amber { background: #fffbeb; color: #b45309; box-shadow: inset 0 0 0 1px #fde68a; }
+  .chip.slate { background: #f8fafc; color: #334155; box-shadow: inset 0 0 0 1px #e2e8f0; }
+
+  .shuffle-row {
+    display: inline-flex; align-items: center; gap: 10px; margin-top: 22px;
+    border: 1px solid #e2e8f0; background: #f8fafc; border-radius: 16px;
+    padding: 12px 20px; font-size: 14px; font-weight: 800; color: #334155; cursor: pointer;
+  }
+  .shuffle-row:hover { border-color: #fcd34d; }
+  .shuffle-row input { width: 20px; height: 20px; accent-color: #f59e0b; cursor: pointer; }
+
+  .version-badge {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 20px;
+    background: linear-gradient(180deg, #fcd34d, #f59e0b);
+    color: #7c2d12; font-size: 15px; font-weight: 900;
+    border-radius: 99px; padding: 11px 24px;
+    box-shadow: 0 4px 16px rgba(245,158,11,0.45), inset 0 1px 0 rgba(255,255,255,0.5);
+  }
+
+  .btn-gold {
+    background: linear-gradient(180deg, #fcd34d 0%, #f59e0b 100%);
+    box-shadow: 0 6px 24px rgba(245,158,11,0.45), inset 0 1px 0 rgba(255,255,255,0.55);
+    color: #022c22; font-weight: 900; border-radius: 18px;
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .btn-gold:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.05);
+    box-shadow: 0 10px 30px rgba(245,158,11,0.55), inset 0 1px 0 rgba(255,255,255,0.55); }
+  .btn-gold:active:not(:disabled) { transform: translateY(0); }
+  .btn-start { margin: 26px auto 0; font-size: 22px; padding: 15px 52px; }
+
+  .sound-note { margin-top: 18px; font-size: 13px; font-weight: 800; color: #64748b;
+    display: inline-flex; align-items: center; gap: 6px; }
+  .sound-note:hover { color: #047857; }
+
+  /* ====== شاشة الأسئلة ====== */
+  .topbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 10px; padding: 12px 16px; margin-bottom: 14px; }
+  .topbar .names { line-height: 1.5; }
+  .topbar .n1 { color: #fff; font-weight: 900; font-size: 15px; }
+  .topbar .n2 { color: #a7f3d0; font-weight: 700; font-size: 12px; }
+  .topbar .left { display: flex; align-items: center; gap: 8px; }
+  .score-chip { position: relative; background: rgba(251,191,36,0.95); border-radius: 14px;
+    padding: 6px 18px; text-align: center; box-shadow: 0 6px 16px rgba(245,158,11,0.35); }
+  .score-chip .lbl { font-size: 10px; font-weight: 800; color: #451a03; line-height: 1; }
+  .score-chip .val { font-size: 20px; font-weight: 900; color: #022c22; line-height: 1.2; font-variant-numeric: tabular-nums; }
+  .float-pts { position: absolute; top: -4px; left: 50%; transform: translateX(-50%);
+    font-size: 14px; font-weight: 900; color: #6ee7b7; pointer-events: none;
+    animation: floatUp .9s ease-out both; text-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+  .streak-chip { display: flex; align-items: center; gap: 4px; border-radius: 14px;
+    background: rgba(249,115,22,0.9); padding: 8px 12px; color: #fff; font-weight: 900; font-size: 14px;
+    animation: pop .35s cubic-bezier(.34,1.56,.64,1) both; }
+  .icon-btn { border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1);
+    border-radius: 14px; padding: 9px 11px; color: #fff; font-size: 17px; line-height: 1; transition: background .15s; }
+  .icon-btn:hover { background: rgba(255,255,255,0.2); }
+  .school-logo { height: 62px; width: auto; flex-shrink: 0; border-radius: 12px;
+    background: #fff; padding: 3px; box-shadow: 0 5px 14px rgba(0,0,0,0.35),
+      inset 0 0 0 1px rgba(255,255,255,0.6); }
+
+  .timerbar { display: flex; align-items: center; gap: 16px; padding: 16px; margin-bottom: 14px; }
+  .timer-info { flex: 1; min-width: 0; }
+  .timer-info .row1 { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+  .qcount { color: #fff; font-weight: 900; font-size: 17px; }
+  .qcount .num { font-size: 24px;
+    background: linear-gradient(120deg, #fde68a, #fbbf24, #f59e0b);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .cat-badge { background: rgba(52,211,153,0.2); color: #a7f3d0; font-size: 12px; font-weight: 700;
+    border-radius: 99px; padding: 5px 12px; box-shadow: inset 0 0 0 1px rgba(110,231,183,0.4); }
+  .progress { height: 10px; background: rgba(255,255,255,0.15); border-radius: 99px; overflow: hidden; margin-top: 12px; }
+  .progress > div { height: 100%; border-radius: 99px; background: linear-gradient(to left, #fcd34d, #f59e0b);
+    transition: width .5s ease; }
+  .hint { color: rgba(255,255,255,0.6); font-size: 11.5px; font-weight: 700; margin-top: 8px; }
+
+  .timer-ring { position: relative; width: 118px; height: 118px; flex-shrink: 0; user-select: none; }
+  .timer-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .timer-inner { position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; }
+  .timer-secs { font-size: 38px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+  .timer-lbl { font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.6); margin-top: 4px; }
+  .danger { animation: timerDanger .8s ease-in-out infinite; }
+
+  .qcard { background: #fff; border-radius: 26px; padding: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    animation: slideIn .35s ease-out both; }
+  .qtext { font-size: 21px; font-weight: 900; line-height: 1.8; color: #1e293b; }
+  .opts { display: flex; flex-direction: column; gap: 12px; margin-top: 22px; }
+  .option {
+    display: flex; align-items: center; gap: 12px; width: 100%; text-align: right;
+    border: 2px solid #e2e8f0; background: #fff; border-radius: 18px; padding: 14px 16px;
+    transition: transform .15s ease, border-color .15s ease, background-color .2s ease, box-shadow .15s ease, opacity .2s;
+  }
+  .option.idle:hover { transform: translateY(-2px); border-color: #f59e0b;
+    box-shadow: 0 8px 22px rgba(245,158,11,0.22); }
+  .option.idle:active { transform: scale(0.985); }
+  .option.correct { border-color: #10b981; background: #ecfdf5; box-shadow: 0 10px 26px rgba(16,185,129,0.25); }
+  .option.wrong { border-color: #ef4444; background: #fef2f2; box-shadow: 0 10px 26px rgba(239,68,68,0.25);
+    animation: shake .45s ease; }
+  .option.dim { opacity: .55; }
+  .checkbox {
+    width: 28px; height: 28px; flex-shrink: 0; border-radius: 8px;
+    border: 2px solid #cbd5e1; background: #fff; color: transparent;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: 900; line-height: 1; transition: background-color .2s, border-color .2s;
+  }
+  .option.correct .checkbox { background: #10b981; border-color: #10b981; color: #fff; }
+  .option.wrong .checkbox { background: #ef4444; border-color: #ef4444; color: #fff; }
+  .checkbox .mark { animation: pop .35s cubic-bezier(.34,1.56,.64,1) both; }
+  .letter { width: 28px; height: 28px; flex-shrink: 0; border-radius: 10px; display: flex;
+    align-items: center; justify-content: center; font-size: 14px; font-weight: 900;
+    background: #f1f5f9; color: #64748b; }
+  .option.correct .letter { background: #d1fae5; color: #047857; }
+  .option.wrong .letter { background: #fee2e2; color: #dc2626; }
+  .opt-text { flex: 1; font-size: 16px; font-weight: 700; line-height: 1.7; color: #334155; }
+
+  .feedback { display: flex; flex-direction: column; align-items: center; gap: 12px;
+    margin-top: 22px; padding-top: 20px; border-top: 2px dashed #f1f5f9;
+    animation: pop .35s cubic-bezier(.34,1.56,.64,1) both; }
+  .fb-text { font-size: 17px; font-weight: 900; text-align: center; }
+  .fb-text.good { color: #059669; }
+  .fb-text.bad { color: #e11d48; }
+  .btn-next { font-size: 17px; padding: 13px 34px; }
+
+  .shortcuts { text-align: center; color: rgba(255,255,255,0.4); font-size: 11px; font-weight: 700;
+    margin-top: 14px; }
+
+  /* ====== شاشة النتيجة ====== */
+  .result-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 26px 14px; }
+  .result-card { max-width: 560px; width: 100%; padding: 6px; animation: slideIn .35s ease-out both; }
+  .result-trophy { width: 96px; height: 96px; margin: 0 auto 18px; border-radius: 99px;
+    display: flex; align-items: center; justify-content: center; font-size: 50px;
+    background: linear-gradient(135deg, #fcd34d, #f59e0b);
+    box-shadow: 0 14px 34px rgba(245,158,11,0.45); animation: glowPulse 2s ease-out infinite; }
+  .r-title { font-size: 28px; font-weight: 900; color: #1e293b; margin-top: 6px; }
+  .r-msg { font-size: 17px; font-weight: 800; margin-top: 8px; }
+  .r-msg.good { color: #059669; } .r-msg.mid { color: #d97706; } .r-msg.low { color: #e11d48; }
+  .r-score { display: flex; align-items: flex-end; justify-content: center; gap: 8px; margin-top: 22px; }
+  .r-score .big { font-size: 68px; font-weight: 900; line-height: 1;
+    background: linear-gradient(120deg, #fde68a, #fbbf24 40%, #f59e0b);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .r-score .unit { font-size: 17px; font-weight: 800; color: #64748b; padding-bottom: 8px; }
+  .r-pct { font-size: 13.5px; font-weight: 800; color: #64748b; margin-top: 4px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 26px; }
+  .stat { border-radius: 18px; padding: 16px 8px; text-align: center; }
+  .stat .v { font-size: 28px; font-weight: 900; }
+  .stat .k { font-size: 12px; font-weight: 800; margin-top: 2px; }
+  .stat.green { background: #ecfdf5; box-shadow: inset 0 0 0 1px #a7f3d0; }
+  .stat.green .v { color: #059669; } .stat.green .k { color: #047857; }
+  .stat.red { background: #fef2f2; box-shadow: inset 0 0 0 1px #fecaca; }
+  .stat.red .v { color: #ef4444; } .stat.red .k { color: #e11d48; }
+  .stat.slate { background: #f1f5f9; box-shadow: inset 0 0 0 1px #e2e8f0; }
+  .stat.slate .v { color: #475569; } .stat.slate .k { color: #64748b; }
+  .streak-line { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px;
+    background: #fffbeb; color: #b45309; box-shadow: inset 0 0 0 1px #fde68a;
+    border-radius: 99px; padding: 8px 20px; font-size: 13.5px; font-weight: 800; }
+  .r-btns { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-top: 30px; }
+  .btn-outline { border: 2px solid #e2e8f0; border-radius: 18px; padding: 13px 32px;
+    font-size: 16px; font-weight: 900; color: #475569; display: inline-flex; align-items: center; gap: 8px;
+    transition: border-color .15s, color .15s; }
+  .btn-outline:hover { border-color: #34d399; color: #047857; }
+  .btn-outline.danger:hover { border-color: #ef4444; color: #e11d48; }
+
+  /* ====== احتفال ====== */
+  #confetti { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 60; }
+  .confetti-piece { position: absolute; top: 0; border-radius: 2px;
+    animation: confettiFall linear forwards; }
+
+  /* ====== حركات ====== */
+  @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)}
+    40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
+  @keyframes pop { 0%{transform:scale(.6);opacity:0} 60%{transform:scale(1.15)} 100%{transform:scale(1);opacity:1} }
+  @keyframes floatUp { 0%{transform:translate(-50%,0);opacity:1} 100%{transform:translate(-50%,-46px);opacity:0} }
+  @keyframes timerDanger { 0%,100%{transform:scale(1)} 50%{transform:scale(1.09)} }
+  @keyframes confettiFall { 0%{transform:translateY(-12vh) rotate(0);opacity:1} 90%{opacity:1}
+    100%{transform:translateY(105vh) rotate(720deg);opacity:0} }
+  @keyframes glowPulse { 0%,100%{box-shadow:0 0 0 0 rgba(251,191,36,.45)} 50%{box-shadow:0 0 0 16px rgba(251,191,36,0)} }
+  @keyframes slideIn { from{transform:translateY(18px) scale(.98);opacity:0} to{transform:translateY(0) scale(1);opacity:1} }
+
+  @media (max-width: 560px) {
+    .contest { font-size: 40px; }
+    .school { font-size: 20px; }
+    .qtext { font-size: 18px; }
+    .timer-ring { width: 96px; height: 96px; }
+    .timer-secs { font-size: 30px; }
+    .stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .card-white { padding: 24px 16px; }
+    .qcard { padding: 18px 14px; }
+    .school-logo { height: 48px; border-radius: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ شاشة البداية ============ -->
+<div id="screen-start" class="start-wrap">
+  <div class="glass start-card">
+    <div class="card-white">
+      <div class="trophy-badge">🏆</div>
+      <p class="team" id="s-team"></p>
+      <h1 class="school" id="s-school"></h1>
+      <div class="divider"></div>
+      <p class="contest" id="s-contest"></p>
+      <p class="grade" id="s-grade"></p>
+      <div class="chips">
+        <span class="chip green" id="s-count"></span>
+        <span class="chip amber">⏱ 30 ثانية لكل سؤال</span>
+        <span class="chip slate">10 نقاط لكل إجابة صحيحة</span>
+        <span class="chip amber">🔀 مواضع الخيارات عشوائية في كل جولة</span>
+      </div>
+      <label class="shuffle-row">
+        <input type="checkbox" id="shuffle-toggle">
+        ✨ ترتيب عشوائي للأسئلة
+      </label>
+      <div class="version-badge">🆕 الإصدار 2 — الإجابات الصحيحة عشوائية ومتوازنة</div>
+      <div>
+        <button class="btn-gold btn-start" id="btn-start">ابدأ المسابقة ←</button>
+      </div>
+      <button class="sound-note" id="btn-sound-start">🔊 المؤثرات الصوتية مفعّلة</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ شاشة الأسئلة ============ -->
+<div id="screen-quiz" class="wrap hidden">
+  <div class="glass topbar">
+    <div class="names">
+      <p class="n1" id="q-school"></p>
+      <p class="n2" id="q-sub"></p>
+    </div>
+    <div class="left">
+      <img class="school-logo" src="data:image/jpeg;base64,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" alt="شعار المدرسة">
+      <div class="score-chip">
+        <p class="lbl">النقاط</p>
+        <p class="val" id="score-val">0</p>
+      </div>
+      <div class="streak-chip hidden" id="streak-chip">🔥 <span id="streak-val">2</span></div>
+      <button class="icon-btn" id="btn-home-quiz" title="الرجوع إلى الشاشة الرئيسية">🏠</button>
+      <button class="icon-btn" id="btn-sound-quiz" title="كتم / تشغيل الصوت">🔊</button>
+    </div>
+  </div>
+
+  <div class="glass timerbar">
+    <div class="timer-ring" id="timer-ring" role="timer" aria-label="الوقت المتبقي">
+      <svg viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="9"/>
+        <circle id="ring-fg" cx="60" cy="60" r="52" fill="none" stroke="#10b981" stroke-width="9"
+                stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="0"
+                style="transition: stroke-dashoffset 1s linear, stroke .4s ease;"/>
+      </svg>
+      <div class="timer-inner">
+        <span class="timer-secs" id="timer-secs">30</span>
+        <span class="timer-lbl">ثانية</span>
+      </div>
+    </div>
+    <div class="timer-info">
+      <div class="row1">
+        <p class="qcount">السؤال <span class="num" id="q-index">1</span> من <span id="q-total">74</span></p>
+        <span class="cat-badge" id="q-cat"></span>
+      </div>
+      <div class="progress"><div id="progress-bar" style="width:0%"></div></div>
+      <p class="hint">اضغط على الخيار الصحيح — الإجابة الصحيحة تظهر بعد الإجابة أو انتهاء الوقت</p>
+    </div>
+  </div>
+
+  <main class="qcard" id="qcard">
+    <h2 class="qtext" id="q-text"></h2>
+    <div class="opts" id="opts"></div>
+    <div class="feedback hidden" id="feedback">
+      <p class="fb-text" id="fb-text"></p>
+      <button class="btn-gold btn-next" id="btn-next">السؤال التالي ←</button>
+    </div>
+  </main>
+  <p class="shortcuts">اختصارات: اضغط 1 / 2 / 3 للإجابة • Enter للانتقال للسؤال التالي</p>
+</div>
+
+<!-- ============ شاشة النتيجة ============ -->
+<div id="screen-result" class="result-wrap hidden">
+  <div id="confetti"></div>
+  <div class="glass result-card">
+    <div class="card-white">
+      <div class="result-trophy">🏆</div>
+      <h2 class="r-title">النتيجة النهائية</h2>
+      <p class="r-msg" id="r-msg"></p>
+      <div class="r-score">
+        <span class="big" id="r-score">0</span>
+        <span class="unit">نقطة</span>
+      </div>
+      <p class="r-pct" id="r-pct"></p>
+      <div class="stats">
+        <div class="stat green"><p class="v" id="r-correct">0</p><p class="k">إجابة صحيحة</p></div>
+        <div class="stat red"><p class="v" id="r-wrong">0</p><p class="k">إجابة خاطئة</p></div>
+        <div class="stat slate"><p class="v" id="r-timeout">0</p><p class="k">انتهى الوقت</p></div>
+      </div>
+      <div><span class="streak-line">🔥 أطول سلسلة إجابات صحيحة: <span id="r-streak">0</span></span></div>
+      <div class="r-btns">
+        <button class="btn-gold" id="btn-restart" style="font-size:17px;padding:13px 32px;">↺ إعادة المسابقة</button>
+        <button class="btn-outline" id="btn-home">🏠 الشاشة الرئيسية</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================= البيانات ================= */
+const DATA = {
+  "school": {
+    "name": "مدرسة عبد الرحمن بن عوف للبنين",
+    "grades": "(5-8)",
+    "team": "أسرة الدراسات الاجتماعية",
+    "contest": "مسابقة التحدي",
+    "gradeLabel": "للصف الثامن"
+  },
+  "categories": [
+    "البيانات الجغرافية وتقنياتها",
+    "البلاد العربية مطلع العصور الحديثة",
+    "الكشوفات الجغرافية والاحتلال البرتغالي",
+    "القضايا الاقتصادية المعاصرة"
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "cat": 0,
+      "q": "ما هو مفهوم البيانات الجغرافية؟",
+      "opts": [
+        "معلومات تاريخية عن حروب الماضي.",
+        "جداول إحصائية لأسعار السلع العالمية.",
+        "توضيح لمواقع الظواهر الجغرافية الطبيعية والبشرية وشكلها وخصائصها."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 2,
+      "cat": 0,
+      "q": "من أهم فوائد استخدام البيانات الجغرافية:",
+      "opts": [
+        "التنبؤ بحالة الطقس لأسابيع قادمة فقط.",
+        "حساب الأرباح المالية للشركات الخاصة.",
+        "اتخاذ قرارات مبنية على بيانات دقيقة، وتخطيط المدن، وإدارة الأزمات والكوارث."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 3,
+      "cat": 0,
+      "q": "يُعد المسح الأرضي:",
+      "opts": [
+        "أحدث طريقة لجمع البيانات الفضائية.",
+        "أقدم طرق جمع البيانات المتعلقة بظواهر سطح الأرض.",
+        "طريقة تعتمد كلياً على الأقمار الاصطناعية."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 4,
+      "cat": 0,
+      "q": "كيف يتم جمع البيانات الجغرافية عن طريق المسح الأرضي؟",
+      "opts": [
+        "قياس المسافات والارتفاعات، وقياس الزوايا ورفع إحداثياتها.",
+        "بالتقاط صور فضائية من الفضاء الخارجي.",
+        "دراسة حركة التيارات البحرية العميقة."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 5,
+      "cat": 0,
+      "q": "من الأمثلة على الأدوات التقليدية في المسح الأرضي:",
+      "opts": [
+        "محطة العمل المتكاملة.",
+        "الطائرات المسيرة.",
+        "شريط القياس والبوصلة المنشورية."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 6,
+      "cat": 0,
+      "q": "من الأمثلة على الأجهزة الحديثة في المسح الأرضي:",
+      "opts": [
+        "البوصلة المنشورية.",
+        "شريط القياس العادي.",
+        "محطة العمل المتكاملة."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 7,
+      "cat": 0,
+      "q": "كيف يتم المسح الجوي والفضائي؟",
+      "opts": [
+        "عبر القياس الميداني المباشر للأرض خطوة بخطوة.",
+        "عن طريق تسجيل الظواهر اعتماداً على الصور الجوية أو الفضائية عبر تقنية الاستشعار عن بعد.",
+        "باستخدام الأشرطة التقليدية والبوصلات الأرضية."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 8,
+      "cat": 0,
+      "q": "ما هي الوسائل المستخدمة في المسح الجوي والفضائي؟",
+      "opts": [
+        "شريط القياس ومحطة العمل.",
+        "البوصلة المنشورية فقط.",
+        "بالون الطقس، والأقمار الاصطناعية، والطائرات المسيرة."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 9,
+      "cat": 0,
+      "q": "ما هو مفهوم الاستشعار عن بعد (RS)؟",
+      "opts": [
+        "الاتصال المباشر بالظواهر عبر لمسها ميدانياً.",
+        "جمع بيانات عن الظواهر الجغرافية دون الاتصال المباشر باستخدام مستشعرات مثبتة على منصات أرضية أو جوية أو فضائية.",
+        "قياس درجات الحرارة داخل الغرف المغلقة."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 10,
+      "cat": 0,
+      "q": "لماذا أصبحت الطائرات المسيرة (الدرونز) الأكثر استخداماً؟",
+      "opts": [
+        "لصعوبة استخدامها وغلاء سعرها.",
+        "لأنها تحل محل الأقمار الصناعية الكبرى في الفضاء الخارجي.",
+        "لسهولة إطلاقها وقلة تكلفتها وقدرتها على جمع البيانات."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 11,
+      "cat": 0,
+      "q": "دلل على اهتمام سلطنة عمان بالطائرات المسيرة:",
+      "opts": [
+        "منعت استخدامها نهائياً بجميع الأشكال.",
+        "أطلقت منصة (سرب) للطائرات المسيرة لتسهيل استخراج التراخيص للهواة.",
+        "خصصتها للأغراض العسكرية فقط."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 12,
+      "cat": 0,
+      "q": "ما هو أول قمر اصطناعي أطلق في سلطنة عمان وسجل لدى الاتحاد الدولي للاتصالات؟",
+      "opts": [
+        "(Muscat-1).",
+        "(Oman-Sat 2).",
+        "(1-OL)."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 13,
+      "cat": 0,
+      "q": "ما الهدف من إطلاق برنامج الفضاء الوطني العماني؟",
+      "opts": [
+        "مراقبة حركة النجوم البعيدة فقط.",
+        "تعزيز مكانة سلطنة عمان كمركز إقليمي لتطبيقات الفضاء.",
+        "التنقيب عن المياه الجوفية يدويًا."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 14,
+      "cat": 0,
+      "q": "ما أهمية الذكاء الاصطناعي في عمليات جمع البيانات الجغرافية؟",
+      "opts": [
+        "سرعة تحديد الظواهر الطبيعية والبشرية، تحسين جودة الصور، وجمع كميات كبيرة من البيانات.",
+        "استبدال البشر بالكامل في كل الوظائف الحكومية.",
+        "إلغاء الحاجة للصور الجوية نهائياً."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 15,
+      "cat": 0,
+      "q": "من مقارنات المسح الأرضي والجوي: المسح الجوي والفضائي يُعتبر أسرع لأنه:",
+      "opts": [
+        "يعتمد على القياس المنفرد لكل موقع.",
+        "يغطي مساحات واسعة في وقت قصير.",
+        "يتطلب وقتاً أطول في الحركة الميدانية."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 16,
+      "cat": 0,
+      "q": "لماذا تطلق الدول أقماراً صناعية لمراقبة الأرض؟",
+      "opts": [
+        "لجمع معلومات دقيقة، ومراقبة المناخ والطقس، ودعم التخطيط العمراني.",
+        "لتغيير مسار العواصف الرعدية.",
+        "لزيادة سرعة الرياح على سطح الأرض."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 17,
+      "cat": 0,
+      "q": "كيف يساعد القمر الاصطناعي العماني (1-OL) سلطنة عمان؟",
+      "opts": [
+        "إصدار القرارات القضائية والإدارية.",
+        "تنظيم حركة المرور الداخلية في الشوارع الفرعية.",
+        "جمع بيانات عن التضاريس، متابعة التغيرات البيئية، ودعم مشاريع التنمية كالمياه والطاقة."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 18,
+      "cat": 0,
+      "q": "ما هي المراحل الأساسية لمعالجة البيانات الجغرافية بالترتيب الصحيح؟",
+      "opts": [
+        "التنظيم ثم التصحيح ثم التمثيل.",
+        "تصحيح البيانات، تنظيم البيانات، تمثيل البيانات المكانية.",
+        "التمثيل ثم التصحيح ثم التنظيم."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 19,
+      "cat": 0,
+      "q": "كيف يتم تصحيح البيانات الجغرافية؟",
+      "opts": [
+        "بحذف جميع الصور القديمة وإهمالها.",
+        "بتنقية وتحويل الصور والبيانات الأولية إلى بيانات دقيقة بإزالة الأخطاء وتعديل الإحداثيات لتطابق الواقع.",
+        "بطباعة الخرائط ورقياً بشكل مباشر."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 20,
+      "cat": 0,
+      "q": "لماذا تُرتّب البيانات الجغرافية وتصنف حسب نوعها؟",
+      "opts": [
+        "لتصبح سهلة الفهم والاستخدام.",
+        "لجعلها صعبة ومعقدة على الباحثين.",
+        "لتقليل حجم التخزين الإلكتروني فقط."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 21,
+      "cat": 0,
+      "q": "البيانات المكانية التي تمثل \"الغطاء النباتي في طبقة والمباني في طبقة أخرى\" تُخزن على شكل:",
+      "opts": [
+        "نصوص كتابية مسلسلة.",
+        "جداول صفوف وأعمدة.",
+        "طبقات منفصلة."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 22,
+      "cat": 0,
+      "q": "البيانات الوصفية (مثل نوع الشجرة وعمرها) تخزن عادة في:",
+      "opts": [
+        "جدول (الصفوف تمثل الظواهر، والأعمدة تمثل خصائص الظاهرة).",
+        "طبقات جغرافية ثلاثية الأبعاد متداخلة.",
+        "خرائط ورقية مرسومة يدوياً."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 23,
+      "cat": 0,
+      "q": "ما هو تعريف نظم المعلومات الجغرافية (GIS)؟",
+      "opts": [
+        "شبكة اتصالات هاتفية أرضية لمراقبة الطقس.",
+        "أنظمة حاسوبية تستخدم لجمع المعلومات الجغرافية وتخزينها ومعالجتها وعرضها وإخراجها.",
+        "برامج تصميم الرسوم المتحركة للأطفال."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 24,
+      "cat": 0,
+      "q": "نصت القوانين العمانية على حماية خصوصية الأفراد في مجال البيانات بحيث:",
+      "opts": [
+        "لا يجوز نشر بياناتهم إلا بإذن مسبق.",
+        "يمكن تداولها ونشرها دون قيود.",
+        "تخصيصها للعلماء الأجانب فقط."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 25,
+      "cat": 0,
+      "q": "نماذج البيانات المكانية التي تمثل الظواهر الجغرافية على شكل نقاط أو خطوط أو مساحات (مثل خط الطول ودائرة العرض) تسمى:",
+      "opts": [
+        "نموذج البيانات الخطية (Vector).",
+        "نموذج البيانات الشبكية (Raster).",
+        "نموذج البيانات الوصفية الجدولة."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 26,
+      "cat": 0,
+      "q": "نموذج البيانات المكانية الذي يمثل الظواهر على شكل بنية شبكية (خلايا) يسمى:",
+      "opts": [
+        "نموذج البيانات الخطية.",
+        "نموذج البيانات الشبكية (Raster).",
+        "نموذج البيانات النصية."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 27,
+      "cat": 0,
+      "q": "في نموذج البيانات الشبكية، تُمثل الظواهر النقطية على شكل:",
+      "opts": [
+        "خلية واحدة.",
+        "خلايا تسير في اتجاه واحد.",
+        "مساحات واسعة مترابطة."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 28,
+      "cat": 0,
+      "q": "خرائط تعتمد على مجموعة من الصور الجوية أو الفضائية المصححة وتجمع معاً لتغطي منطقة جغرافية تسمى:",
+      "opts": [
+        "خرائط الأنساب التاريخية.",
+        "الخرائط الكنتورية البحتة.",
+        "الخرائط المصورة."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 29,
+      "cat": 0,
+      "q": "خرائط تهدف إلى تمثيل سطح الأرض بأبعاده الثلاثة (الطول والعرض والارتفاع) تسمى:",
+      "opts": [
+        "خرائط ثلاثية الأبعاد.",
+        "خرائط ثنائية الأبعاد مسطحة.",
+        "الجداول الوصفية الرقمية."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 30,
+      "cat": 0,
+      "q": "أنشأت هيئة البيئة شبكة متكاملة من محطات رصد جودة الهواء تعرض على خرائط رقمية تفاعلية عبر تطبيق يسمى:",
+      "opts": [
+        "تطبيق سرب.",
+        "تطبيق نقي.",
+        "تطبيق الأطلس التعليمي."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 31,
+      "cat": 0,
+      "q": "من تطبيقات البيانات الجغرافية في مجال \"المناخ والبيئة\":",
+      "opts": [
+        "توزيع المدارس ومقاعد الطلاب.",
+        "رصد درجات الحرارة، كميات الأمطار، وتتبع مسارات الأعاصير.",
+        "تحديد مسارات الحافلات المدرسية اليومية."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 32,
+      "cat": 0,
+      "q": "من مميزات تطبيق \"التخطيط العمراني\":",
+      "opts": [
+        "تحديد أفضل المواقع للمساكن والطرق والمدارس والخدمات العامة.",
+        "تتبع مسارات السفن التجارية العابرة للمحيطات.",
+        "قياس سرعة الرياح العليا في طبقات الجو."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 33,
+      "cat": 0,
+      "q": "إدارة نقل الموارد والبضائع والخدمات المختلفة من مكان إلى آخر يُعرف بـ:",
+      "opts": [
+        "الخدمات اللوجستية.",
+        "التخطيط العمراني.",
+        "الاستشعار عن بعد."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 34,
+      "cat": 0,
+      "q": "مشروع وطني يقدم قاعدة بيانات جغرافية وتاريخية متكاملة من خلال خرائط تفاعلية وتتبع حركة الحافلات المدرسية يسمى:",
+      "opts": [
+        "الأطلس التعليمي الرقمي لسلطنة عمان والعالم.",
+        "شبكة رصد جودة الهواء.",
+        "منصة الطائرات المسيرة."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 35,
+      "cat": 0,
+      "q": "ما الجهة الحكومية المختصة باعتماد خرائط سلطنة عمان رسمياً؟",
+      "opts": [
+        "وزارة التربية والتعليم.",
+        "الهيئة الوطنية للمساحة والمعلومات الجيومكانية.",
+        "هيئة حماية المستهلك."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 36,
+      "cat": 0,
+      "q": "علل: يحظر استخدام أو تداول خرائط سلطنة عمان إلا بعد اعتمادها:",
+      "opts": [
+        "لتقليل عدد النسخ المطبوعة فقط.",
+        "لضمان دقة الخرائط وصحتها.",
+        "لرفع أسعار بيعها في الأسواق."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 37,
+      "cat": 1,
+      "q": "ما هي المدينة التي أسقطها المغول في المشرق الإسلامي؟",
+      "opts": [
+        "القاهرة.",
+        "القسطنطينية.",
+        "بغداد."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 38,
+      "cat": 1,
+      "q": "أين تأسست الدولة المملوكية وامتدت نفوذها؟",
+      "opts": [
+        "تأسست في الأندلس وامتدت لشمال إفريقيا.",
+        "تأسست في مصر وامتدت إلى الشام والحجاز.",
+        "تأسست في العراق وامتدت لبلاد فارس."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 39,
+      "cat": 1,
+      "q": "ما النتيجة المترتبة على ضعف دولة المماليك؟",
+      "opts": [
+        "استقلال مدن الخليج العربي بالكامل.",
+        "صعود الدولة العثمانية التي استطاعت فتح القسطنطينية.",
+        "سيطرة المغول على الجزيرة العربية."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 40,
+      "cat": 1,
+      "q": "من هو مؤسس الدولة العثمانية؟",
+      "opts": [
+        "سليم الأول.",
+        "محمد الفاتح.",
+        "عثمان بن أرطغرل."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 41,
+      "cat": 1,
+      "q": "كم استمر حكم الدولة العثمانية تقريباً؟",
+      "opts": [
+        "أكثر من ستة قرون (١٢٩٩ - ١٩٢٤م).",
+        "خمسة قرون.",
+        "ثلاثة قرون."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 42,
+      "cat": 1,
+      "q": "ما عاصمة الإمبراطورية البيزنطية التي اتخذتها الدولة العثمانية عاصمة لها بعد فتحها؟",
+      "opts": [
+        "القسطنطينية (إسطنبول).",
+        "دمشق.",
+        "بغداد."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 43,
+      "cat": 1,
+      "q": "في أي عام تم فتح القسطنطينية على يد العثمانيين؟",
+      "opts": [
+        "1507م.",
+        "1624م.",
+        "1453م."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 44,
+      "cat": 1,
+      "q": "بما اتسمت الأوضاع السياسية في البلاد العربية مطلع العصور الحديثة؟",
+      "opts": [
+        "الاستقرار التام والرخاء السياسي.",
+        "عدم الاستقرار بسبب تنافس عدد من القوى على أراضيها.",
+        "الاتحاد الكامل بين كافة الأقاليم العربية."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 45,
+      "cat": 1,
+      "q": "دلل على ازدهار البلاد العربية اقتصادياً بسبب موقعها الجغرافي مطلع العصور الحديثة:",
+      "opts": [
+        "نشطت التجارة في موانئ البحر الأحمر ومضيق هرمز وممالك الخليج العربي.",
+        "توقفت حركة التجارة تماماً بين الشرق والغرب.",
+        "اقتصرت التجارة على المنتجات الزراعية المحلية فقط."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 46,
+      "cat": 1,
+      "q": "من أمثلة السلع التي كان يتم إعادة تصديرها من موانئ العرب إلى الأسواق الأوروبية:",
+      "opts": [
+        "الحديد الصلب والفحم الحجري.",
+        "البن والتوابل والأقمشة.",
+        "الآلات الصناعية الثقيلة."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 47,
+      "cat": 1,
+      "q": "أين قامت مملكة هرمز تاريخياً؟",
+      "opts": [
+        "على مدخل الخليج العربي، وتحديداً عند المضيق الذي يحمل اسمها.",
+        "على ساحل البحر الأحمر الجنوبي.",
+        "داخل شبه الجزيرة العربية."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 48,
+      "cat": 1,
+      "q": "ما النتيجة المترتبة على موقع هرمز الاستراتيجي؟",
+      "opts": [
+        "أصبحت أهم المراكز التجارية لتمر عبرها السفن المحملة بالتوابل والحرير واللؤلؤ والخيول.",
+        "تحولت إلى منطقة عسكرية مغلقة يحظر دخول التجار إليها.",
+        "انعزلت تجارياً عن محيطها الإقليمي والعالمي."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 49,
+      "cat": 1,
+      "q": "من أبرز الملاحين العمانيين الذين برعوا في الملاحة البحرية:",
+      "opts": [
+        "ابن بطوطة.",
+        "أحمد بن ماجد.",
+        "الإدريسي."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 50,
+      "cat": 1,
+      "q": "من المظاهر الثقافية التي انتشرت في البلاد العربية رغم عدم الاستقرار السياسي:",
+      "opts": [
+        "المسارح الرومانية الكبرى.",
+        "الجامعات الإلكترونية الحديثة.",
+        "الكتاتيب، المساجد، المدارس، والمكتبات مثل المكتبة السليمانية في دمشق."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 51,
+      "cat": 1,
+      "q": "في أي مجال برز العالم ابن حجر العسقلاني؟",
+      "opts": [
+        "مجال الحديث الشريف.",
+        "مجال التاريخ.",
+        "مجال الفلك."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 52,
+      "cat": 1,
+      "q": "في أي مجال برز المؤرخ الشهير المقريزي؟",
+      "opts": [
+        "مجال الطب.",
+        "مجال الملاحة البحرية.",
+        "مجال التاريخ."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 53,
+      "cat": 1,
+      "q": "ما المقصود بالمخطوطات؟",
+      "opts": [
+        "الخرائط الرقمية المصممة بالحاسوب.",
+        "كل ما كان مكتوباً بخط اليد من الكتب.",
+        "العملات المعدنية القديمة."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 54,
+      "cat": 2,
+      "q": "ما الهدف الرئيسي من حركة الكشوفات الجغرافية في أوروبا؟",
+      "opts": [
+        "نشر العلوم العربية والتقنيات الحديثة في العالم.",
+        "للوصول لطرق تجارية جديدة، والحصول على الثروات والمواد الخام.",
+        "الاستكشاف العلمي البحت دون رغبة اقتصادية."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 55,
+      "cat": 2,
+      "q": "ما هي الدولة الأوروبية التي قادت حركة الكشوفات الجغرافية الأولى؟",
+      "opts": [
+        "بريطانيا.",
+        "إسبانيا.",
+        "البرتغال."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 56,
+      "cat": 2,
+      "q": "ما خط سير الكشوفات الجغرافية البرتغالية نحو الشرق؟",
+      "opts": [
+        "عبر آسيا الوسطى براً.",
+        "عبر البحر المتوسط مباشرة إلى الشام.",
+        "بدأت من غرب إفريقيا وصولاً لسواحل المحيط الهندي مروراً برأس الرجاء الصالح."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 57,
+      "cat": 2,
+      "q": "علل: شهدت عمان أوضاعاً غير مستقرة في القرن الخامس عشر إلى منتصف القرن السادس عشر الميلادي:",
+      "opts": [
+        "بسبب توقف حركة التجارة العالمية بالكامل.",
+        "بسبب توحد جميع القوى المحلية ضد الخارج.",
+        "بسبب الصراعات الداخلية والأطماع الخارجية."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 58,
+      "cat": 2,
+      "q": "من هو القائد البرتغالي صاحب الحملة العسكرية الأولى التي وصلت إلى عمان عام 1507م؟",
+      "opts": [
+        "ألبوكيرك.",
+        "فاسكو دي جاما.",
+        "دي باريا."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 59,
+      "cat": 2,
+      "q": "كم استمرت سيطرة البرتغاليين على السواحل العمانية؟",
+      "opts": [
+        "خمسة قرون كاملة.",
+        "أقل من عشر سنوات.",
+        "أكثر من قرن."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 60,
+      "cat": 2,
+      "q": "لماذا سعى البرتغاليون للسيطرة على السواحل العمانية وسواحل الخليج العربي؟",
+      "opts": [
+        "بسبب موقعها الاستراتيجي وريادة العمانيين في التجارة وتأمين تمويل السفن البرتغالية.",
+        "لرغبتهم في نشر الثقافة الأوروبية في شبه الجزيرة.",
+        "لزراعة المحاصيل الاستوائية الأوروبية."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 61,
+      "cat": 2,
+      "q": "من آثار الاحتلال البرتغالي للسواحل العمانية:",
+      "opts": [
+        "السيطرة على المدن الساحلية، إحراق السفن، احتكار التجارة، وبناء التحصينات الدفاعية.",
+        "نشر السلام والازدهار الاقتصادي للسكان المحليين.",
+        "تطوير الموانئ العمانية وتوسيع تجارتها الحرة."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 62,
+      "cat": 2,
+      "q": "تقع قلعتا الجلالي والميراني عند مدخل ميناء:",
+      "opts": [
+        "مسقط.",
+        "صلالة.",
+        "صور."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 63,
+      "cat": 2,
+      "q": "أي القلعتين تم بناؤها قبل قدوم البرتغاليين على شكل برج وأعاد البرتغاليون بناءها؟",
+      "opts": [
+        "قلعة الجلالي.",
+        "قلعة الميراني.",
+        "حصن الأسود."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 64,
+      "cat": 2,
+      "q": "ما هو مفهوم \"التراث الثقافي المغمور بالمياه\"؟",
+      "opts": [
+        "الآثار ذات القيمة التاريخية المغمورة كلياً أو جزئياً تحت المياه لمدة تزيد على 100 عام.",
+        "السفن الحديثة الراسية في الموانئ العمومية.",
+        "الثروات السمكية الطبيعية في أعماق المحيطات."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 65,
+      "cat": 2,
+      "q": "قامت انتفاضة 1521م ضد البرتغاليين بقيادة:",
+      "opts": [
+        "قبائل ظفار الجنوبية.",
+        "سكان مسقط وقريات.",
+        "أهالي نزوى الداخلية."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 66,
+      "cat": 2,
+      "q": "حدثت ثورة 1580م في مسقط بتعاون القبائل العمانية مع:",
+      "opts": [
+        "الدولة الصفوية.",
+        "مملكة هرمز.",
+        "الدولة العثمانية."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 67,
+      "cat": 2,
+      "q": "ما هي الدولة العمانية التي تمكنت في النهاية من طرد البرتغاليين من السواحل العمانية؟",
+      "opts": [
+        "الدولة البوسعيدية.",
+        "الدولة النباهية.",
+        "دولة اليعاربة."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 68,
+      "cat": 2,
+      "q": "ظهرت في الحياة الثقافية العمانية مطلع العصور الحديثة أسر علمية بارزة مثل:",
+      "opts": [
+        "آل نبهان.",
+        "آل بو سعيد.",
+        "آل مداد."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 69,
+      "cat": 2,
+      "q": "في أي مجال برز الطبيب العماني راشد بن عميرة؟",
+      "opts": [
+        "مجال الفلك وتحديد الأقبية الفلكية.",
+        "مجال الطب وشرح تشريح العين.",
+        "مجال الهندسة المعمارية وبناء القلاع."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 70,
+      "cat": 2,
+      "q": "من أبرز علماء ظفار في مطلع العصور الحديثة والذي كتب في علوم الشريعة:",
+      "opts": [
+        "العلامة عقيل بن عمران.",
+        "أحمد بن ماجد.",
+        "راشد بن عميرة."
+      ],
+      "correct": 0
+    },
+    {
+      "id": 71,
+      "cat": 2,
+      "q": "اشتهرت مدينتا نزوى وظفار في المجال الصناعي بصناعة:",
+      "opts": [
+        "الورق والحرير الطبيعي.",
+        "الأسلحة النارية الحديثة.",
+        "الصناعات النحاسية والفضية."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 72,
+      "cat": 2,
+      "q": "تميز محراب مسجد الشرجة في نزوى بـ:",
+      "opts": [
+        "اعتماده على النمط الروماني الخالص.",
+        "بنائه الطوبي البسيط دون نقوش.",
+        "النقش والزخرفة الدقيقة."
+      ],
+      "correct": 2
+    },
+    {
+      "id": 73,
+      "cat": 3,
+      "q": "من أهم القضايا الاقتصادية المعاصرة التي تواجه الاقتصاد العالمي:",
+      "opts": [
+        "وفرة السلع وانخفاض أسعارها بشكل دائم.",
+        "الاحتكار، ارتفاع معدلات التضخم، وزيادة الدين العام.",
+        "انعدام الضرائب والرسوم المالية كلياً."
+      ],
+      "correct": 1
+    },
+    {
+      "id": 74,
+      "cat": 3,
+      "q": "ما هو تعريف \"الاحتكار\" اقتصادياً؟",
+      "opts": [
+        "انفراد جهة واحدة بإنتاج سلعة وبيعها أو تقديم خدمة معينة، مما يقلل المنافسة ويمنح التحكم بالأسعار.",
+        "تنوع الشركات المنتجة لسلعة واحدة بأسعار متفاوتة.",
+        "تبادل السلع حرة بلا قيود بين الدول."
+      ],
+      "correct": 0
+    }
+  ]
+};
+const QUESTIONS = DATA.questions;
+const CATEGORIES = DATA.categories;
+const SCHOOL = DATA.school;
+const TIME_LIMIT = 30;
+const POINTS = 10;
+const LETTERS = ["أ", "ب", "ج"];
+const CIRC = 2 * Math.PI * 52;
+
+/* ================= الأصوات (Web Audio API) ================= */
+const Sound = {
+  ctx: null, enabled: true,
+  init() {
+    if (!this.ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      this.ctx = new AC();
+    }
+    if (this.ctx.state === "suspended") this.ctx.resume();
+  },
+  tone(o) {
+    if (!this.enabled || !this.ctx) return;
+    const ctx = this.ctx, start = ctx.currentTime + (o.start || 0);
+    const osc = ctx.createOscillator(), gain = ctx.createGain();
+    osc.type = o.type || "sine";
+    osc.frequency.setValueAtTime(o.freq, start);
+    if (o.slideTo) osc.frequency.exponentialRampToValueAtTime(Math.max(o.slideTo, 1), start + o.duration);
+    const vol = o.gain || 0.18;
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.exponentialRampToValueAtTime(vol, start + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + o.duration);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(start); osc.stop(start + o.duration + 0.05);
+  },
+  click() { this.tone({ freq: 620, duration: 0.08, type: "triangle", gain: 0.1 }); },
+  correct() {
+    [523.25, 659.25, 783.99, 1046.5].forEach((f, i) =>
+      this.tone({ freq: f, start: i * 0.09, duration: i === 3 ? 0.42 : 0.14, gain: 0.2 }));
+    this.tone({ freq: 1568, start: 0.28, duration: 0.3, type: "triangle", gain: 0.07 });
+  },
+  wrong() {
+    this.tone({ freq: 220, duration: 0.45, type: "sawtooth", gain: 0.14, slideTo: 95 });
+    this.tone({ freq: 110, start: 0.05, duration: 0.4, type: "square", gain: 0.06, slideTo: 60 });
+  },
+  tick() { this.tone({ freq: 1100, duration: 0.06, type: "square", gain: 0.05 }); },
+  timeUp() {
+    this.tone({ freq: 440, duration: 0.22, type: "square", gain: 0.12 });
+    this.tone({ freq: 330, start: 0.26, duration: 0.3, type: "square", gain: 0.12 });
+  },
+  start() {
+    this.tone({ freq: 320, duration: 0.5, gain: 0.15, slideTo: 880 });
+    this.tone({ freq: 660, start: 0.15, duration: 0.4, type: "triangle", gain: 0.1, slideTo: 1320 });
+  },
+  whoosh() { this.tone({ freq: 900, duration: 0.22, gain: 0.08, slideTo: 2400 }); },
+  fanfare() {
+    [[523.25, 0], [659.25, 0.12], [783.99, 0.24], [1046.5, 0.36], [783.99, 0.52], [1046.5, 0.62]]
+      .forEach(([f, t]) => this.tone({ freq: f, start: t, duration: 0.22, type: "square", gain: 0.09 }));
+    this.tone({ freq: 1318.5, start: 0.78, duration: 0.7, type: "triangle", gain: 0.14 });
+  }
+};
+
+/* ================= الحالة ================= */
+let gameQuestions = [], index = 0, score = 0, streak = 0, maxStreak = 0;
+let chosen = null, remaining = TIME_LIMIT, timerId = null, answers = [];
+
+const $ = (id) => document.getElementById(id);
+
+function shuffleArr(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* خلط مواضع الخيارات (أ/ب/ج) داخل السؤال مع تصحيح موضع الإجابة الصحيحة */
+function shuffleOptions(q) {
+  const order = shuffleArr([0, 1, 2]);
+  return Object.assign({}, q, {
+    opts: order.map((i) => q.opts[i]),
+    correct: order.indexOf(q.correct)
+  });
+}
+
+/* ================= التنقل بين الشاشات ================= */
+function show(id) {
+  ["screen-start", "screen-quiz", "screen-result"].forEach((s) =>
+    $(s).classList.toggle("hidden", s !== id));
+  window.scrollTo(0, 0);
+}
+
+/* ================= شاشة البداية ================= */
+function initStart() {
+  $("s-team").textContent = SCHOOL.team;
+  $("s-school").textContent = SCHOOL.name + " " + SCHOOL.grades;
+  $("s-contest").textContent = SCHOOL.contest;
+  $("s-grade").textContent = SCHOOL.gradeLabel;
+  $("s-count").textContent = QUESTIONS.length + " سؤالاً";
+  $("q-total").textContent = QUESTIONS.length;
+  $("q-school").textContent = SCHOOL.name + " " + SCHOOL.grades;
+  $("q-sub").textContent = SCHOOL.team + " • " + SCHOOL.contest + " " + SCHOOL.gradeLabel;
+}
+function updateSoundIcons() {
+  const txt = Sound.enabled ? "🔊 المؤثرات الصوتية مفعّلة" : "🔇 المؤثرات الصوتية مكتومة";
+  $("btn-sound-start").textContent = txt;
+  $("btn-sound-quiz").textContent = Sound.enabled ? "🔊" : "🔇";
+}
+
+function startGame(shuffled) {
+  Sound.init(); Sound.start();
+  gameQuestions = (shuffled ? shuffleArr(QUESTIONS) : QUESTIONS).map(shuffleOptions);
+  answers = gameQuestions.map(() => null);
+  index = 0; score = 0; streak = 0; maxStreak = 0; chosen = null; remaining = TIME_LIMIT;
+  show("screen-quiz");
+  renderQuestion();
+}
+
+/* ================= شاشة الأسئلة ================= */
+function renderQuestion() {
+  const q = gameQuestions[index];
+  chosen = null; remaining = TIME_LIMIT;
+  $("qcard").style.animation = "none"; void $("qcard").offsetWidth;
+  $("qcard").style.animation = "";
+  $("score-val").textContent = score;
+  $("streak-chip").classList.add("hidden");
+  $("q-index").textContent = index + 1;
+  $("q-cat").textContent = CATEGORIES[q.cat];
+  $("q-text").textContent = q.q;
+  $("feedback").classList.add("hidden");
+  $("progress-bar").style.width = ((index) / gameQuestions.length) * 100 + "%";
+  renderTimer();
+  const opts = $("opts");
+  opts.innerHTML = "";
+  q.opts.forEach((opt, i) => {
+    const b = document.createElement("button");
+    b.className = "option idle";
+    b.setAttribute("aria-label", "الخيار " + LETTERS[i] + ": " + opt);
+    b.innerHTML = '<span class="checkbox"></span><span class="letter">' + LETTERS[i] +
+      '</span><span class="opt-text"></span>';
+    b.querySelector(".opt-text").textContent = opt;
+    b.addEventListener("click", () => choose(i));
+    opts.appendChild(b);
+  });
+  startTimer();
+}
+
+function renderTimer() {
+  const secs = Math.ceil(remaining);
+  const pct = Math.max(0, Math.min(1, remaining / TIME_LIMIT));
+  const stroke = secs > 15 ? "#10b981" : secs > 5 ? "#f59e0b" : "#ef4444";
+  $("timer-secs").textContent = secs;
+  $("timer-secs").style.color = stroke;
+  $("ring-fg").setAttribute("stroke", stroke);
+  $("ring-fg").setAttribute("stroke-dashoffset", CIRC * (1 - pct));
+  $("timer-ring").classList.toggle("danger", secs <= 5 && remaining > 0);
+}
+
+function startTimer() {
+  clearInterval(timerId);
+  timerId = setInterval(() => {
+    remaining -= 1;
+    if (remaining <= 5 && remaining > 0) Sound.tick();
+    if (remaining <= 0) { remaining = 0; renderTimer(); timeout(); return; }
+    renderTimer();
+  }, 1000);
+}
+
+function stopTimer() { clearInterval(timerId); timerId = null; }
+
+function choose(i) {
+  if (chosen !== null) return;
+  Sound.init();
+  chosen = i; stopTimer();
+  answers[index] = i;
+  const q = gameQuestions[index];
+  if (i === q.correct) {
+    Sound.correct(); score += POINTS; streak++;
+    if (streak > maxStreak) maxStreak = streak;
+    const chip = $("score-val").parentElement;
+    const f = document.createElement("span");
+    f.className = "float-pts"; f.textContent = "+" + POINTS;
+    chip.appendChild(f); setTimeout(() => f.remove(), 950);
+  } else { Sound.wrong(); streak = 0; }
+  reveal();
+}
+
+function timeout() {
+  if (chosen !== null) return;
+  stopTimer();
+  chosen = -1; streak = 0;
+  answers[index] = -1;
+  Sound.timeUp();
+  reveal();
+}
+
+function reveal() {
+  const q = gameQuestions[index];
+  $("score-val").textContent = score;
+  if (streak >= 2) {
+    $("streak-chip").classList.remove("hidden");
+    $("streak-val").textContent = streak;
+  }
+  const buttons = [...document.querySelectorAll("#opts .option")];
+  buttons.forEach((b, i) => {
+    b.classList.remove("idle");
+    b.disabled = true;
+    const box = b.querySelector(".checkbox");
+    if (i === q.correct) {
+      b.classList.add("correct");
+      box.innerHTML = '<span class="mark">✓</span>';
+    } else if (i === chosen) {
+      b.classList.add("wrong");
+      box.innerHTML = '<span class="mark">✗</span>';
+    } else {
+      b.classList.add("dim");
+    }
+  });
+  const fb = $("fb-text");
+  if (chosen === q.correct) { fb.className = "fb-text good"; fb.textContent = "أحسنت! إجابة صحيحة 🎉"; }
+  else if (chosen === -1) { fb.className = "fb-text bad"; fb.textContent = "انتهى الوقت! ⏰ الإجابة الصحيحة موضحة بالأخضر"; }
+  else { fb.className = "fb-text bad"; fb.textContent = "إجابة خاطئة ✗ — الصحيحة موضحة بالأخضر"; }
+  const nextBtn = $("btn-next");
+  nextBtn.textContent = index === gameQuestions.length - 1 ? "عرض النتيجة النهائية 🏆" : "السؤال التالي ←";
+  $("feedback").classList.remove("hidden");
+  nextBtn.focus({ preventScroll: true });
+}
+
+function goNext() {
+  if (chosen === null) return;
+  if (index === gameQuestions.length - 1) { showResult(); return; }
+  Sound.whoosh();
+  index++;
+  renderQuestion();
+}
+
+/* ================= شاشة النتيجة ================= */
+function showResult() {
+  stopTimer();
+  let correct = 0, wrong = 0, timeoutN = 0;
+  answers.forEach((a, i) => {
+    if (a === null) return;
+    if (a === -1) timeoutN++;
+    else if (a === gameQuestions[i].correct) correct++;
+    else wrong++;
+  });
+  const answeredN = correct + wrong + timeoutN;
+  const pct = answeredN ? Math.round((correct / answeredN) * 100) : 0;
+  $("r-score").textContent = score;
+  $("r-pct").textContent = "نسبة الإجابات الصحيحة: " + pct + "%";
+  $("r-correct").textContent = correct;
+  $("r-wrong").textContent = wrong;
+  $("r-timeout").textContent = timeoutN;
+  $("r-streak").textContent = maxStreak;
+  const msg = $("r-msg");
+  if (pct >= 90) { msg.className = "r-msg good"; msg.textContent = "أداء بطولي! أنت نجم مسابقة التحدي 🎉"; }
+  else if (pct >= 75) { msg.className = "r-msg good"; msg.textContent = "نتيجة رائعة! استمر في التألق 🌟"; }
+  else if (pct >= 50) { msg.className = "r-msg mid"; msg.textContent = "نتيجة جيدة، ويمكنك الأفضل بالمزيد من التدريب 👍"; }
+  else { msg.className = "r-msg low"; msg.textContent = "لا بأس! راجع الدروس جيداً وعاود المحاولة 💪"; }
+  show("screen-result");
+  Sound.fanfare();
+  if (pct >= 50) launchConfetti();
+}
+
+function launchConfetti() {
+  const box = $("confetti");
+  box.innerHTML = "";
+  const colors = ["#fbbf24", "#f59e0b", "#10b981", "#34d399", "#ffffff", "#f87171"];
+  for (let i = 0; i < 60; i++) {
+    const p = document.createElement("span");
+    p.className = "confetti-piece";
+    p.style.left = Math.random() * 100 + "%";
+    p.style.width = (7 + Math.random() * 8) + "px";
+    p.style.height = (12 + Math.random() * 12) + "px";
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.animationDelay = (Math.random() * 2.5) + "s";
+    p.style.animationDuration = (3 + Math.random() * 2.5) + "s";
+    box.appendChild(p);
+  }
+  setTimeout(() => { box.innerHTML = ""; }, 7000);
+}
+
+/* ================= الأحداث ================= */
+$("btn-start").addEventListener("click", () => startGame($("shuffle-toggle").checked));
+$("btn-restart").addEventListener("click", () => startGame($("shuffle-toggle").checked));
+$("btn-home").addEventListener("click", () => { Sound.click(); show("screen-start"); });
+
+/* زر الرجوع إلى الرئيسية أثناء اللعب — يعمل مباشرة بنقرة واحدة */
+function goHomeFromQuiz() {
+  Sound.init(); Sound.click();
+  stopTimer();
+  index = 0; score = 0; streak = 0; maxStreak = 0; chosen = null;
+  $("score-val").textContent = "0";
+  show("screen-start");
+}
+$("btn-home-quiz").addEventListener("click", goHomeFromQuiz);
+$("btn-home-quiz").addEventListener("touchstart", function (e) { e.preventDefault(); goHomeFromQuiz(); }, { passive: false });
+$("btn-next").addEventListener("click", goNext);
+$("btn-sound-start").addEventListener("click", () => {
+  Sound.enabled = !Sound.enabled;
+  if (Sound.enabled) { Sound.init(); Sound.click(); }
+  updateSoundIcons();
+});
+$("btn-sound-quiz").addEventListener("click", () => {
+  Sound.enabled = !Sound.enabled;
+  if (Sound.enabled) { Sound.init(); Sound.click(); }
+  updateSoundIcons();
+});
+document.addEventListener("keydown", (e) => {
+  if ($("screen-quiz").classList.contains("hidden")) return;
+  if (chosen !== null && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); goNext(); }
+  else if (chosen === null && ["1", "2", "3"].includes(e.key)) choose(Number(e.key) - 1);
+});
+
+initStart();
+updateSoundIcons();
+</script>
+</body>
+</html>
